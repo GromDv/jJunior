@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentsList {
-
     static final ObjectMapper objectMapper = new ObjectMapper();
     static final XmlMapper xmlMapper = new XmlMapper();
 

@@ -6,14 +6,15 @@ public class MainApp {
 
     public static void main(String[] args) {
 
+        // Serialization-Externalization of object
         Student student1 = new Student("Ivanov", 18, 4.5);
 
-        System.out.println("Student before:");
+        System.out.println();
+        System.out.println("Student before serialization:");
         System.out.println(student1);
 
-        student1.saveToJson(student1.getName() + ".json");
-        student1.saveToXML(student1.getName() + ".xml");
-
+        student1.saveToJson();
+        student1.saveToXML();
 
         String fileName = student1.getName() + ".bin";
         try (ObjectOutputStream objOutStream = new ObjectOutputStream(new FileOutputStream(fileName))) {
@@ -21,19 +22,23 @@ public class MainApp {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        Student student1_s;
-        fileName = student1.getName() + ".bin";
-
+        Student student1_after = new Student();
         try (ObjectInputStream objInStream = new ObjectInputStream(new FileInputStream(fileName))) {
-            student1_s = (Student) objInStream.readObject();
+            student1_after = (Student) objInStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.println("Student deserialized:");
-        System.out.println(student1_s);
+        System.out.println("Student after deserialization:");
+        System.out.println(student1_after);
+        System.out.println("Student from JSON:");
+        System.out.println(Student.loadStudent(student1.getName() + ".json"));
+        System.out.println("Student from XML:");
+        System.out.println(Student.loadStudent(student1.getName() + ".xml"));
 
+
+
+        // Serialization-Externalization of object's list
         ArrayList<Student> list = new ArrayList<>();
         list.add(student1);
         list.add(new Student("Petrov", 19, 4.8));
